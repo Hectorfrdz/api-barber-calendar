@@ -22,9 +22,11 @@ export class AppointmentsService {
     }: {
         createAppointmentDto: CreateAppointmentDto
     }) {
-        await this.usersService.findOne({
-            by: { id: createAppointmentDto.user_barber_id },
-        })
+        if (createAppointmentDto.user_barber_id) {
+            await this.usersService.findOne({
+                by: { id: createAppointmentDto.user_barber_id },
+            })
+        }
 
         await this.usersService.findOne({
             by: { id: createAppointmentDto.user_customer_id },
@@ -34,10 +36,9 @@ export class AppointmentsService {
             by: { id: createAppointmentDto.service_id },
         })
 
-        const newAppointment =
-            this.appointmentRepository.create(createAppointmentDto)
+        const newAppointment = this.appointmentRepository.create(createAppointmentDto);
 
-        await this.appointmentRepository.save(newAppointment)
+        await this.appointmentRepository.save(newAppointment);
 
         return {
             status: 'OK',
@@ -46,7 +47,7 @@ export class AppointmentsService {
                 where: { id: newAppointment.id },
                 relations: ['user_barber', 'user_customer', 'service'],
             }),
-        }
+        };
     }
 
     public async findAll({

@@ -29,7 +29,7 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post()
-    @UseGuards(AuthJwtGuard)
+    // @UseGuards(AuthJwtGuard)
     @HttpCode(HttpStatus.CREATED)
     @ApiResponse({
         status: HttpStatus.CREATED,
@@ -39,10 +39,10 @@ export class UsersController {
         status: HttpStatus.BAD_REQUEST,
         description: 'Ya existe un usuario con este correo / El rol no existe',
     })
-    @ApiResponse({
-        status: HttpStatus.UNAUTHORIZED,
-        description: 'No autorizado',
-    })
+    // @ApiResponse({
+    //     status: HttpStatus.UNAUTHORIZED,
+    //     description: 'No autorizado',
+    // })
     public async create(
         @Body() createUserDto: CreateUserDto,
     ): Promise<ApiResponseType<User>> {
